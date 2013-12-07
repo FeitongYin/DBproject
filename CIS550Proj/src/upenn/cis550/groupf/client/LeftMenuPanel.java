@@ -27,8 +27,10 @@ public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handl
 			.create(GreetingService.class);
 	
 	private static final String LEFT_PANEL_WIDTH = "250px";
-	final Label boardLabel = new Label("");
-	private int boardID;
+	//final Label boardLabel = new Label("");
+	private Label boardLabelSelected = new Label("");
+	private int boardIDSelected;
+	
 	final Label friendLabel = new Label("");
 	private int friendID;
 	
@@ -39,8 +41,12 @@ public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handl
 		Label label = null;
 		
 		Label boardLabel = new Label("Boards you own");
+		Label boardNameLabel = null;
 		Panel boardPanel = new VerticalPanel();
+		
+		
 		Label friendLabel = new Label("Friends");
+		Label friendNameLabel = null;
 		Panel friendPanel = new VerticalPanel();
 		
 		add(boardLabel);
@@ -53,10 +59,11 @@ public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handl
 		friendPanel.setSize(LEFT_PANEL_WIDTH, "100px");
 		
 		for (Board board : boards) {
-			boardLabel.setText(board.getBoardName());
-			boardID = board.getBoardID();
-			boardPanel.add(boardLabel);
-			boardLabel.addClickHandler(new BoardClickHandler());
+			//boardLabel.setText(board.getBoardName());
+			boardNameLabel = new Label(board.getBoardName());
+			boardNameLabel.setTitle(Integer.toString(board.getBoardID())); //get boardId set as title
+			boardPanel.add(boardNameLabel);
+			boardNameLabel.addClickHandler(new BoardClickHandler());
 		}
 		
 		for (User friend : friends) {
@@ -67,51 +74,15 @@ public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handl
 		}
 	}
 	
-	/*
-	public LeftMenuPanel(EventBus bus, User currectUser, List<Board> boards, List<User> friends) {
-		//this.EVENT_BUS = bus;
-		setBorderWidth(3);
-		setSpacing(10);
-		Label label = null;
-		
-		Label boardLabel = new Label("Boards you own");
-		Panel boardPanel = new VerticalPanel();
-		Label friendLabel = new Label("Friends");
-		Panel friendPanel = new VerticalPanel();
-		
-		Pennterest.EVENT_BUS.addHandler(ViewBoardEvent.TYPE, this);
-		
-		add(boardLabel);
-		boardLabel.setSize(LEFT_PANEL_WIDTH, "20px");
-		add(boardPanel);
-		boardPanel.setSize(LEFT_PANEL_WIDTH, "100px");
-		add(friendLabel);
-		friendLabel.setSize(LEFT_PANEL_WIDTH, "20px");
-		add(friendPanel);
-		friendPanel.setSize(LEFT_PANEL_WIDTH, "100px");
-		
-		for (Board board : boards) {
-			boardLabel.setText(board.getBoardName());
-			boardID = board.getBoardID();
-			boardPanel.add(boardLabel);
-			boardLabel.addClickHandler(new BoardClickHandler());
-		}
-		
-		for (User friend : friends) {
-			friendLabel.setText(friend.getName());
-			friendPanel.add(friendLabel);
-		}
-	}
-	*/
 	class BoardClickHandler implements ClickHandler {
 
 		/**
 		 * Fired when a board label is clicked
 		 */
 		public void onClick(ClickEvent event) {
-			// test onlick, direct to a new test page
-			// succeed
-			//Window.Location.assign("http://www.google.com");
+			System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++on lick++++++++++");
+			boardLabelSelected = (Label) event.getSource();
+			boardIDSelected = Integer.parseInt(boardLabelSelected.getTitle()); //boardID as title, string to int
 			System.out.println("sending to server.....");
 			sendBoardToServer();
 			
@@ -122,8 +93,8 @@ public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handl
 		 * maybe should also send the name of viewer(check later)
 		 */
 		private void sendBoardToServer() {
-			final int boardOwnerID = boardID;
-			final String boardName = boardLabel.getText();
+			final int boardOwnerID = boardIDSelected;
+			//final String boardName = boardLabel.getText();
 			//test purpose, print out board name 
 			System.out.println("getting board id");
 			System.out.println(boardOwnerID);
