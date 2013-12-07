@@ -15,6 +15,8 @@ import upenn.cis550.groupf.shared.Board;
 public class LeftMenuPanel extends VerticalPanel {
 	private static final String LEFT_PANEL_WIDTH = "250px";
 	final Label boardLabel = new Label("");
+	private int boardID;
+	final Label friendLabel = new Label("");
 	
 	public LeftMenuPanel(User currectUser, List<Board> boards, List<User> friends) {
 		setBorderWidth(3);
@@ -37,13 +39,14 @@ public class LeftMenuPanel extends VerticalPanel {
 		
 		for (Board board : boards) {
 			boardLabel.setText(board.getBoardName());
+			boardID = board.getBoardID();
 			boardPanel.add(boardLabel);
 			boardLabel.addClickHandler(new BoardClickHandler());
 		}
 		
 		for (User friend : friends) {
-			label = new Label(friend.getName());
-			friendPanel.add(label);
+			friendLabel.setText(friend.getName());
+			friendPanel.add(friendLabel);
 		}
 	}
 	
@@ -53,8 +56,10 @@ public class LeftMenuPanel extends VerticalPanel {
 		 * Fired when a board label is clicked
 		 */
 		public void onClick(ClickEvent event) {
-			// TODO Auto-generated method stub
-			Window.Location.assign("http://www.google.com");
+			// test onlick, direct to a new test page
+			// succeed
+			//Window.Location.assign("http://www.google.com");
+			sendBoardToServer();
 			
 		}
 		
@@ -63,6 +68,12 @@ public class LeftMenuPanel extends VerticalPanel {
 		 * maybe should also send the name of viewer(check later)
 		 */
 		private void sendBoardToServer() {
+			final int boardOwnerID = boardID;
+			final String boardName = boardLabel.getText();
+			//test purpose, print out board name 
+			System.out.println(boardName);
+			
+			// trigger a query via event bus
 			
 		}
 		
