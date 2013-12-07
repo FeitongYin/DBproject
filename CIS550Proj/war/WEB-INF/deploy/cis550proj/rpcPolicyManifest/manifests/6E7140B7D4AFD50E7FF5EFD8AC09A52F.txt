@@ -1,0 +1,2 @@
+serviceClass: upenn.cis550.groupf.client.GreetingService
+path: 603B127FE7F4B6BDC150F647D8FC894A.gwt.rpc

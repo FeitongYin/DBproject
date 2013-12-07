@@ -1,0 +1,75 @@
+/** Add css rules here for your application. */
+
+
+/** Example rules used by the template application (remove for your app) */
+h1 {
+  font-size: 2em;
+  font-weight: bold;
+  color: #777777;
+  margin: 40px 0px 70px;
+  text-align: center;
+}
+
+.gwt-Button {
+	width: 300px;
+	font-size: 20px;
+    font-color: red;
+    background: blue;
+}
+
+.gwt-TextBox {
+	width: 300px;
+	height: 50px;
+	font-color: red;
+}
+
+#loginPanel {
+	align: center;
+	padding-top: 50px;
+}
+.gwt-ButtonSignUp {
+	color: White;
+	font-size: 24px;
+	background-color: Lime;
+}
+.gwt-LabelSignUp {
+	font-size: 36px;
+}
+.gwt-TextBoxUserName {
+	color: Gray;
+	font-size: 18px;
+}
+.gwt-TextBoxEmail {
+	color: Gray;
+	font-size: 18px;
+}
+.gwt-TextBoxPassword {
+	color: Gray;
+	font-size: 18px;
+}
+.gwt-LabelBirthday {
+	font-size: 16px;
+}
+.gwt-RadioButtonGender {
+	font-size: 16px;
+}
+.gwt-LabelPennterest {
+}
+.gwt-Logo {
+	background-color: slateblue;
+}
+.gwt-LableLogo {
+	color: White;
+	font-size: 50px;
+}
+.gwt-ButtonBackToSignIn {
+	color: White;
+	font-size: 16px;
+	background-color: blueviolet;
+}
+
+.ImageWidgetView {
+	padding-bottome: 5px;
+}
+
+
