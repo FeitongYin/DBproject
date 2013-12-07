@@ -50,13 +50,13 @@ public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handl
 		Panel friendPanel = new VerticalPanel();
 		
 		add(boardLabel);
-		boardLabel.setSize(LEFT_PANEL_WIDTH, "20px");
+		boardLabel.setSize("100px", "21px");
 		add(boardPanel);
-		boardPanel.setSize(LEFT_PANEL_WIDTH, "100px");
+		boardPanel.setSize("100px", "100px");
 		add(friendLabel);
-		friendLabel.setSize(LEFT_PANEL_WIDTH, "20px");
+		friendLabel.setSize("100px", "20px");
 		add(friendPanel);
-		friendPanel.setSize(LEFT_PANEL_WIDTH, "100px");
+		friendPanel.setSize("100px", "100px");
 		
 		for (Board board : boards) {
 			//boardLabel.setText(board.getBoardName());

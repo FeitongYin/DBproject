@@ -57,7 +57,7 @@ public class BoardContentPage{
 		
 		VerticalPanel imagePanel = new VerticalPanel();
 		mainPanel.add(imagePanel);
-		leftPanel.setSize("500px", "511px");
+		//leftPanel.setSize("500px", "511px");
 		
 		
 		for (Content content : result.getContents()) {
