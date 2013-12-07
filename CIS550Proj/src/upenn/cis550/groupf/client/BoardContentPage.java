@@ -23,6 +23,8 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Grid;
 
 public class BoardContentPage{
+	
+	//System.out.println("welcome to baord content page!");
 	public EventBus EVENT_BUS;
 	
 	
@@ -32,6 +34,9 @@ public class BoardContentPage{
 		//EVENT_BUS.addHandler(ViewBoardEvent.TYPE, this);
 		
 		// get and clear root panel
+		
+		System.out.println("welcome to Board!!!");
+
 		RootPanel rootPanel = RootPanel.get("ContentPanel");
 		rootPanel.setSize("900px", "768px");
 		rootPanel.getElement().getStyle().setPosition(Position.RELATIVE);

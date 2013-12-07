@@ -160,6 +160,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public ViewResult getBoardContent(int boardID) {
+		
+		System.out.println("proccessing query!!...............");
 		// TODO Auto-generated method stub
 		ResultSet userRs = null;
 		ResultSet boardRs = null;
@@ -172,16 +174,23 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			//User
 			stat = conn.createStatement();
 			System.out.println("Getting Owner of the board");
-			userRs = stat.executeQuery("SELECT U.* FROM Users U, Boards B where B.boardID"
-					+ boardID + "AND B.userID = U.userID");
+			userRs = stat.executeQuery("SELECT U.* FROM Users U, Boards B where B.boardID = "
+					+ boardID + " AND B.userID = U.userID");
 			
 			boardOwner = UserConvertor.getUserFrom(userRs);
+			
+			System.out.println("***************boardOwner id is...****************************");
+			System.out.println(boardOwner.getId());
 			
 			//Boards
 			stat = conn.createStatement();
 			System.out.println("Fetching User " + boardOwner.getId() + "'s Board");
 			boardRs = stat.executeQuery("SELECT * FROM Boards where userID = "
 					+ boardOwner.getId());
+			System.out.println("!!!!!!!!!!!!!!!!!!!!!.getting baord with boardID****************************");
+			System.out.println(boardOwner.getId());
+			
+			
 			//Friends
 			stat = conn.createStatement();
 			System.out.println("Fetching User " + boardOwner.getId() + "'s friends");
@@ -202,8 +211,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 							+ "as "
 							+ "(select contentID, count(contentID) as frequency from pin where destBoardID =" + boardID + "group by contentID) "
 							+ "select C.contentID, frequency, contentKey, description, isCached from hotcontent H, content C "
-							+ "where C.contentID = H.contentID "
-							+ "");
+							+ "where C.contentID = H.contentID ");
 			// query tested in sql
 			
 			
