@@ -22,15 +22,14 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Grid;
 
-public class BoardContentPage implements ViewBoardEvent.Handler{
+public class BoardContentPage{
 	public EventBus EVENT_BUS;
 	
-	private final GreetingServiceAsync greetingService = GWT
-			.create(GreetingService.class);
 	
-	public BoardContentPage(EventBus bus, ViewResult result) {
-		this.EVENT_BUS = bus;
-		EVENT_BUS.addHandler(ViewBoardEvent.TYPE, this);
+	
+	public BoardContentPage(ViewResult result) {
+		//this.EVENT_BUS = bus;
+		//EVENT_BUS.addHandler(ViewBoardEvent.TYPE, this);
 		
 		// get and clear root panel
 		RootPanel rootPanel = RootPanel.get("ContentPanel");
@@ -43,7 +42,7 @@ public class BoardContentPage implements ViewBoardEvent.Handler{
 		rootPanel.add(mainPanel, 10, 36);
 		mainPanel.setSize("900px", "513px");
 		
-		VerticalPanel leftPanel = new LeftMenuPanel(bus, result.getOwner(), result.getBoards(), result.getFriends());
+		VerticalPanel leftPanel = new LeftMenuPanel(result.getOwner(), result.getBoards(), result.getFriends());
 		mainPanel.add(leftPanel);
 		leftPanel.setSize("231px", "511px");
 		
@@ -59,9 +58,9 @@ public class BoardContentPage implements ViewBoardEvent.Handler{
 		
 	}
 
-	@Override
-	public void doSomething(int boardID, AsyncCallback<ViewResult> callback) {
-		// TODO Auto-generated method stub
-		
-	}
+
+
+
+
+
 }

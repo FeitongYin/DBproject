@@ -41,7 +41,7 @@ public class ViewBoardEvent extends GwtEvent<ViewBoardEvent.Handler> {
 	 */
 	@Override
 	protected void dispatch(Handler handler) {
-		handler.doSomething(boardID, callback);
+		handler.processGetBoard(boardID, callback);
 	}
 	 
 	/**
@@ -51,7 +51,7 @@ public class ViewBoardEvent extends GwtEvent<ViewBoardEvent.Handler> {
 	 *
 	 */
 	public static interface Handler extends EventHandler {
-		public void doSomething(int boardID,
+		public void processGetBoard(int boardID,
 				AsyncCallback<ViewResult> callback);
 
 	}

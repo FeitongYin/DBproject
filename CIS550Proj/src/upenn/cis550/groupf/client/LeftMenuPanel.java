@@ -2,6 +2,7 @@ package upenn.cis550.groupf.client;
 
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.EventBus;
@@ -17,10 +18,11 @@ import upenn.cis550.groupf.shared.User;
 import upenn.cis550.groupf.shared.Board;
 import upenn.cis550.groupf.shared.ViewResult;
 
-public class LeftMenuPanel extends VerticalPanel {
+public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handler {
 	
 	public EventBus EVENT_BUS;
-	
+	private final GreetingServiceAsync greetingService = GWT
+			.create(GreetingService.class);
 	
 	private static final String LEFT_PANEL_WIDTH = "250px";
 	final Label boardLabel = new Label("");
@@ -101,6 +103,7 @@ public class LeftMenuPanel extends VerticalPanel {
 			// test onlick, direct to a new test page
 			// succeed
 			//Window.Location.assign("http://www.google.com");
+			System.out.println("sending to server.....");
 			sendBoardToServer();
 			
 		}
@@ -137,7 +140,8 @@ public class LeftMenuPanel extends VerticalPanel {
 					else {
 						//PinPage pinPage = new PinPage(EVENT_BUS, result);
 						//pinPage.doWork();
-						BoardContentPage boardPage = new BoardContentPage(EVENT_BUS, result);
+						System.out.println("success!!");
+						BoardContentPage boardPage = new BoardContentPage(result);
 					}
 				}
 			}));
@@ -149,4 +153,15 @@ public class LeftMenuPanel extends VerticalPanel {
 	public void doWork() {
 		// TODO 
 	}
-}
+
+	@Override
+	public void processGetBoard(int boardID, AsyncCallback<ViewResult> callback) {
+		
+			// TODO Auto-generated method stub
+			greetingService.getBoardContent(boardID, callback);
+			
+		}
+
+		
+	}
+
