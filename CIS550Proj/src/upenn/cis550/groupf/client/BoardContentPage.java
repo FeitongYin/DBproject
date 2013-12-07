@@ -37,7 +37,7 @@ public class BoardContentPage{
 		
 		// get and clear root panel
 		String contentURL = null; 
-		Image contentImg = new Image("");
+		Image contentImg = null;
 		
 		System.out.println("welcome to Board!!!");
 
@@ -64,8 +64,8 @@ public class BoardContentPage{
 			contentURL = content.getContentKey();
 			System.out.println("==============================Image URL is :================================");
 			System.out.println(contentURL);
-			contentImg.setUrl(contentURL);
-			contentImg.setSize("100px", "100px");
+			contentImg = new Image(contentURL);
+			contentImg.setSize("200px", "200px");
 			imagePanel.add(contentImg);
 			
 		}
