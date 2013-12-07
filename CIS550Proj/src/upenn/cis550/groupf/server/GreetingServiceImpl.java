@@ -157,4 +157,65 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 		return null;
 	}
+
+	@Override
+	public ViewResult getBoardContent(int boardID) {
+		// TODO Auto-generated method stub
+		ResultSet userRs = null;
+		ResultSet boardRs = null;
+		ResultSet friendRs = null;
+		ResultSet contentRs = null;
+		User boardOwner = null;
+		User viewer = null;
+		
+		try {
+			//User
+			stat = conn.createStatement();
+			System.out.println("Getting Owner of the board");
+			userRs = stat.executeQuery("SELECT U.* FROM Users U, Boards B where B.boardID"
+					+ boardID + "AND B.userID = U.userID");
+			
+			boardOwner = UserConvertor.getUserFrom(userRs);
+			
+			//Boards
+			stat = conn.createStatement();
+			System.out.println("Fetching User " + boardOwner.getId() + "'s Board");
+			boardRs = stat.executeQuery("SELECT * FROM Boards where userID = "
+					+ boardOwner.getId());
+			//Friends
+			stat = conn.createStatement();
+			System.out.println("Fetching User " + boardOwner.getId() + "'s friends");
+			friendRs = stat
+					.executeQuery("select * from users where userID in "
+							+ "(select friend1Id as friendID from Friends where friend2Id = "
+							+ boardOwner.getId()
+							+ " union "
+							+ "select friend2Id as friendID from Friends where friend1Id = "
+							+ boardOwner.getId() + ")");
+			//Content
+			stat = conn.createStatement();
+			System.out
+					.println("Fetching most pinned content boards not belong to User "
+							+ boardOwner.getId());
+			contentRs = stat
+					.executeQuery("with hotcontent "
+							+ "as "
+							+ "(select contentID, count(contentID) as frequency from pin where destBoardID =" + boardID + "group by contentID) "
+							+ "select C.contentID, frequency, contentKey, description, isCached from hotcontent H, content C "
+							+ "where C.contentID = H.contentID "
+							+ "");
+			// query tested in sql
+			
+			
+		} catch (SQLException se) {
+			se.printStackTrace();
+		}
+		return ViewResultConvertor.getViewResultFrom(viewer, boardOwner, boardRs,
+				friendRs, contentRs);
+		
+		
+		//return null;
+		
+
+	}
 }

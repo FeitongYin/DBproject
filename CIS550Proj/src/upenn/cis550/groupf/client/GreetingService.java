@@ -15,4 +15,6 @@ public interface GreetingService extends RemoteService {
 	ViewResult login(String name, String password);
 	
 	User addUser(String firstName, String lastName, String email, String sex);
+
+	ViewResult getBoardContent(int boradID);
 }
