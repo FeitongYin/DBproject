@@ -69,6 +69,6 @@ public class LeftMenuPanel extends VerticalPanel {
 	}
 	
 	public void doWork() {
-		//BoardClickHandler bHandler = 
+		// TODO 
 	}
 }
