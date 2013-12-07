@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -37,6 +38,7 @@ public class LeftMenuPanel extends VerticalPanel {
 		for (Board board : boards) {
 			boardLabel.setText(board.getBoardName());
 			boardPanel.add(boardLabel);
+			boardLabel.addClickHandler(new BoardClickHandler());
 		}
 		
 		for (User friend : friends) {
@@ -52,6 +54,7 @@ public class LeftMenuPanel extends VerticalPanel {
 		 */
 		public void onClick(ClickEvent event) {
 			// TODO Auto-generated method stub
+			Window.Location.assign("http://www.google.com");
 			
 		}
 		
@@ -63,5 +66,9 @@ public class LeftMenuPanel extends VerticalPanel {
 			
 		}
 		
+	}
+	
+	public void doWork() {
+		//BoardClickHandler bHandler = 
 	}
 }
