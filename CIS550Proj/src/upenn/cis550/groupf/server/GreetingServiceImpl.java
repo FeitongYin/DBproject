@@ -161,7 +161,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public ViewResult getBoardContent(int boardID) {
 		
-		System.out.println("proccessing query!!...............");
+		System.out.println("proccessing query!!....................");
 		// TODO Auto-generated method stub
 		ResultSet userRs = null;
 		ResultSet boardRs = null;
@@ -173,27 +173,18 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		try {
 			//User
 			stat = conn.createStatement();
-			System.out.println("Getting Owner of the board");
 			userRs = stat.executeQuery("SELECT U.* FROM Users U, Boards B where B.boardID = "
 					+ boardID + " AND B.userID = U.userID");
 			
 			boardOwner = UserConvertor.getUserFrom(userRs);
-			
-			System.out.println("***************boardOwner id is...****************************");
-			System.out.println(boardOwner.getId());
-			
+
 			//Boards
 			stat = conn.createStatement();
-			System.out.println("Fetching User " + boardOwner.getId() + "'s Board");
 			boardRs = stat.executeQuery("SELECT * FROM Boards where userID = "
 					+ boardOwner.getId());
-			System.out.println("!!!!!!!!!!!!!!!!!!!!!.getting baord with boardID****************************");
-			System.out.println(boardOwner.getId());
-			
 			
 			//Friends
 			stat = conn.createStatement();
-			System.out.println("Fetching User " + boardOwner.getId() + "'s friends");
 			friendRs = stat
 					.executeQuery("select * from users where userID in "
 							+ "(select friend1Id as friendID from Friends where friend2Id = "
@@ -203,9 +194,6 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 							+ boardOwner.getId() + ")");
 			//Content
 			stat = conn.createStatement();
-			System.out
-					.println("Fetching most pinned content boards not belong to User "
-							+ boardOwner.getId());
 			contentRs = stat
 					.executeQuery("with hotcontent "
 							+ "as "
@@ -220,9 +208,6 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		}
 		return ViewResultConvertor.getViewResultFrom(viewer, boardOwner, boardRs,
 				friendRs, contentRs);
-		
-		
-		//return null;
 		
 
 	}
