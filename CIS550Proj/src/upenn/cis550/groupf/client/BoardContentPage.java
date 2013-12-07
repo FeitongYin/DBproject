@@ -26,16 +26,10 @@ import com.google.gwt.user.client.ui.Grid;
 
 public class BoardContentPage{
 	
-	//System.out.println("welcome to baord content page!");
-	public EventBus EVENT_BUS;
-	
 	
 	
 	public BoardContentPage(ViewResult result) {
-		//this.EVENT_BUS = bus;
-		//EVENT_BUS.addHandler(ViewBoardEvent.TYPE, this);
-		
-		// get and clear root panel
+
 		String contentURL = null; 
 		Image contentImg = null;
 		
@@ -62,8 +56,6 @@ public class BoardContentPage{
 		
 		for (Content content : result.getContents()) {
 			contentURL = content.getContentKey();
-			System.out.println("==============================Image URL is :================================");
-			System.out.println(contentURL);
 			contentImg = new Image(contentURL);
 			contentImg.setSize("200px", "200px");
 			imagePanel.add(contentImg);
@@ -79,15 +71,8 @@ public class BoardContentPage{
 		contentGrid.setWidget(0, 1, testImg);
 		mainPanel.add(contentGrid);
 		*/
-		
-		
-		
+			
 		
 	}
-
-
-
-
-
 
 }

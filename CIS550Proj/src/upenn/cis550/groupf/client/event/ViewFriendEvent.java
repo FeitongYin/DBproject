@@ -14,7 +14,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  *
  */
 public class ViewFriendEvent extends GwtEvent<ViewFriendEvent.Handler> {
-	private int friendID;
+	private String friendName;
 	
 	// Whom to call when results are returned
 	private AsyncCallback<ViewResult> callback;
@@ -25,8 +25,8 @@ public class ViewFriendEvent extends GwtEvent<ViewFriendEvent.Handler> {
 	public static Type<ViewFriendEvent.Handler> TYPE = new Type<ViewFriendEvent.Handler>();
 
 
-	public ViewFriendEvent (int friendID, AsyncCallback<ViewResult> callback) {
-		this.friendID = friendID;
+	public ViewFriendEvent (String friendName, AsyncCallback<ViewResult> callback) {
+		this.friendName = friendName;
 		this.callback = callback;
 	}
 	
@@ -41,7 +41,7 @@ public class ViewFriendEvent extends GwtEvent<ViewFriendEvent.Handler> {
 	 */
 	@Override
 	protected void dispatch(Handler handler) {
-		handler.processGetFriendBoard(friendID, callback);
+		handler.processViewFriend(friendName, callback);
 	}
 	 
 	/**
@@ -51,7 +51,7 @@ public class ViewFriendEvent extends GwtEvent<ViewFriendEvent.Handler> {
 	 *
 	 */
 	public static interface Handler extends EventHandler {
-		public void processGetFriendBoard(int friendID,
+		public void processViewFriend(String friendName,
 				AsyncCallback<ViewResult> callback);
 
 	}

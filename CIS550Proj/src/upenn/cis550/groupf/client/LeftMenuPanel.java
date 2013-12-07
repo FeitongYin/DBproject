@@ -194,10 +194,10 @@ public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handl
 	}
 
 	@Override
-	public void processGetBoard(int boardID, AsyncCallback<ViewResult> callback) {		
+	public void processViewFriend(String friendName, AsyncCallback<ViewResult> callback) {		
 			// TODO Auto-generated method stub
 		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!test");
-			greetingService.getBoardContent(boardID, callback);
+			greetingService.viewBoard(friendName, callback);
 			
 		}
 	

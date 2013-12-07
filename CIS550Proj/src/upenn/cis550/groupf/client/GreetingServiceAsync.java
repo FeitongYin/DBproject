@@ -17,5 +17,7 @@ public interface GreetingServiceAsync {
 	
 	void getBoardContent(int boardID, AsyncCallback<ViewResult> callback);
 
+	void viewBoard(String username, AsyncCallback<ViewResult> callback);
+
 	
 }
