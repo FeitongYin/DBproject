@@ -11,8 +11,10 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 
+import upenn.cis550.groupf.client.LeftMenuPanel.BoardClickHandler;
 import upenn.cis550.groupf.client.event.ViewBoardEvent;
 import upenn.cis550.groupf.client.event.ViewEvent;
+import upenn.cis550.groupf.shared.Content;
 import upenn.cis550.groupf.shared.User;
 import upenn.cis550.groupf.shared.Board;
 import upenn.cis550.groupf.shared.ViewResult;
@@ -34,6 +36,8 @@ public class BoardContentPage{
 		//EVENT_BUS.addHandler(ViewBoardEvent.TYPE, this);
 		
 		// get and clear root panel
+		String contentURL = null; 
+		Image contentImg = new Image("");
 		
 		System.out.println("welcome to Board!!!");
 
@@ -51,12 +55,30 @@ public class BoardContentPage{
 		mainPanel.add(leftPanel);
 		leftPanel.setSize("231px", "511px");
 		
+		VerticalPanel imagePanel = new VerticalPanel();
+		mainPanel.add(imagePanel);
+		leftPanel.setSize("500px", "511px");
+		
+		
+		for (Content content : result.getContents()) {
+			contentURL = content.getContentKey();
+			System.out.println("==============================Image URL is :================================");
+			System.out.println(contentURL);
+			contentImg.setUrl(contentURL);
+			contentImg.setSize("100px", "100px");
+			imagePanel.add(contentImg);
+			
+		}
+		
+	
+		/*
 		Grid contentGrid = new Grid(4, 4);
 		Image testImg = new Image("/images/pic.jpg");
 		testImg.setSize("50px", "50px");
 		contentGrid.setWidget(0, 0, testImg);
 		contentGrid.setWidget(0, 1, testImg);
 		mainPanel.add(contentGrid);
+		*/
 		
 		
 		

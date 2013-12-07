@@ -67,6 +67,7 @@ public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handl
 		}
 	}
 	
+	/*
 	public LeftMenuPanel(EventBus bus, User currectUser, List<Board> boards, List<User> friends) {
 		//this.EVENT_BUS = bus;
 		setBorderWidth(3);
@@ -101,7 +102,7 @@ public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handl
 			friendPanel.add(friendLabel);
 		}
 	}
-	
+	*/
 	class BoardClickHandler implements ClickHandler {
 
 		/**
