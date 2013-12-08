@@ -19,7 +19,7 @@ import upenn.cis550.groupf.shared.User;
 import upenn.cis550.groupf.shared.Board;
 import upenn.cis550.groupf.shared.ViewResult;
 
-public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handler {
+public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handler, ViewFriendEvent.Handler {
 	
 	private final GreetingServiceAsync greetingService = GWT.create(GreetingService.class);	
 	private static final String LEFT_PANEL_WIDTH = "250px";
@@ -33,6 +33,8 @@ public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handl
 	
 	public LeftMenuPanel(User currectUser, List<Board> boards, List<User> friends) {
 		Pennterest.EVENT_BUS.addHandler(ViewBoardEvent.TYPE, this);
+		Pennterest.EVENT_BUS.addHandler(ViewFriendEvent.TYPE, this);
+		
 		setBorderWidth(3);
 		setSpacing(10);
 		//Label label = null;
