@@ -229,7 +229,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	 */
 
 	@Override
-	public ViewResult getBoardContent(int boardID) {
+	public ViewResult getBoardContent(String boardID) {
 		
 		System.out.println("proccessing query!!....................");
 		// TODO Auto-generated method stub

@@ -104,8 +104,8 @@ public class LoginPage {
 
 				// On successful retrieval of actors, create an actors page
 				public void onSuccess(ViewResult result) {
-					UserPage userPage = new UserPage(result.getOwner());
-					userPage.doWork();
+					//UserPage userPage = new UserPage(result.getOwner());
+					//userPage.doWork();
 				}
 			}));
 		}

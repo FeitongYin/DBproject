@@ -24,7 +24,7 @@ public interface GreetingService extends RemoteService {
 	
 	boolean pin(String userName, String boardID, String srcGroup, int contentID, String comment);
 
-	ViewResult getBoardContent(int boardID);
+	ViewResult getBoardContent(String boardID);
 	
 	ViewResult viewBoard(String username);
 
