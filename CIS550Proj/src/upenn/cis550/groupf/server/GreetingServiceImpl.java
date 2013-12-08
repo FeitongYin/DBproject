@@ -243,33 +243,38 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		try {
 			//User
 			stat = conn.createStatement();
-			userRs = stat.executeQuery("SELECT U.* FROM Users U, Boards B where B.boardID = "
-					+ boardID + " AND B.userID = U.userID");
-			
+			userRs = stat.executeQuery("SELECT U.* FROM Users U, Boards B where B.boardID = '"
+					+ boardID + "' AND B.username = U.username");
+			// user query ok
 			boardOwner = UserConvertor.getUserFrom(userRs);
 
 			//Boards
 			stat = conn.createStatement();
-			boardRs = stat.executeQuery("SELECT * FROM Boards where userID = "
-					+ boardOwner.getId());
+			boardRs = stat.executeQuery("SELECT * FROM Boards where username = '"
+							+ boardOwner.getUserName() + "'"); //ok
+
 			
 			//Friends
 			stat = conn.createStatement();
+			System.out.println("Fetching User " + boardOwner.getUserName()
+					+ "'s friends");
 			friendRs = stat
-					.executeQuery("select * from users where userID in "
-							+ "(select friend1Id as friendID from Friends where friend2Id = "
-							+ boardOwner.getId()
-							+ " union "
-							+ "select friend2Id as friendID from Friends where friend1Id = "
-							+ boardOwner.getId() + ")");
+					.executeQuery("select * from users where username in "
+							+ "(select friend1Id as friendID from Friends where friend2Id = '"
+							+ boardOwner.getUserName()
+							+ "' union "
+							+ "select friend2Id as friendID from Friends where friend1Id = '"
+							+ boardOwner.getUserName() + "')"); //ok
 			//Content
 			stat = conn.createStatement();
 			contentRs = stat
 					.executeQuery("with hotcontent "
-							+ "as "
-							+ "(select contentID, count(contentID) as frequency from pin where destBoardID =" + boardID + "group by contentID) "
-							+ "select C.contentID, frequency, contentKey, description, isCached from hotcontent H, content C "
-							+ "where C.contentID = H.contentID ");
+				+ "as "
+				+ "(select srcGroup, contentID, count(contentID) as frequency from pin where destBoardID = '" + boardID + "' group by srcGroup, contentID) "
+				+ "select * from "
+				+ "(select C.srcGroup, C.contentID, frequency, contentKey, description, isCached "
+				+ "from hotcontent H, content C "
+				+ "where C.contentID = H.contentID and C.srcGroup = H.srcGroup)");
 			// query tested in sql
 			
 			
