@@ -292,7 +292,56 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public ViewResult getUser(String username) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO later try getting rid of pinRs;
+		ResultSet userRs = null;
+		ResultSet boardRs = null;
+		ResultSet friendRs = null;
+		ResultSet nullContentRs = null;
+		User owner = null;
+
+		try {
+			stat = conn.createStatement();
+
+			userRs = stat.executeQuery("SELECT * FROM Users where username = '"
+					+ username +"'");
+
+			owner = UserConvertor.getUserFrom(userRs);
+			if (owner == null) {
+				System.out.println("Too bad, clicking  a friend's name failed to retrieve user...");
+				return null;
+			}
+
+			stat = conn.createStatement();
+			System.out.println("Fetching User " + owner.getUserName()
+					+ "'s Board");
+			boardRs = stat
+					.executeQuery("SELECT * FROM Boards where username = '"
+							+ owner.getUserName() + "'");
+
+			stat = conn.createStatement();
+			System.out.println("Fetching User " + owner.getUserName()
+					+ "'s friends");
+			friendRs = stat
+					.executeQuery("select * from users where username in "
+							+ "(select friend1Id as friendID from Friends where friend2Id = '"
+							+ owner.getUserName()
+							+ "' union "
+							+ "select friend2Id as friendID from Friends where friend1Id = '"
+							+ owner.getUserName() + "')");
+
+			stat = conn.createStatement();
+			System.out
+					.println("Fetching most pinned content boards not belong to User "
+							+ owner.getUserName());
+			
+			nullContentRs = stat
+					.executeQuery("");
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+		}
+
+		return ViewResultConvertor.getViewResultFrom(null, owner, boardRs,
+				friendRs, nullContentRs);
 	}
 }

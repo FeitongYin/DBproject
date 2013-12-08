@@ -53,4 +53,22 @@ public class ViewResultConvertor {
 		}
 		return result;
 	}
+	
+	public static ViewResult getViewResultFrom(User viewer, User owner,
+			ResultSet boardRs, ResultSet friendRs) {
+		ViewResult result = null;
+		try {
+			List<Board> boards = BoardConvertor.getBoardListFrom(boardRs);
+			List<User> friends = UserConvertor.getUserListFrom(friendRs);
+
+			if (viewer == null) {
+				result = new ViewResult(owner, owner, boards, friends);
+			} else {
+				result = new ViewResult(viewer, owner, boards, friends);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

@@ -25,6 +25,13 @@ public class ViewResult implements IsSerializable {
 		setContents(contents);
 	}
 	
+	public ViewResult(User viewer, User owner, List<Board> boards, List<User> friends) {
+		setViewer(viewer);
+		setOwner(owner);
+		setBoards(boards);
+		setFriends(friends);
+	}
+	
 	public User getViewer() {
 		return viewer;
 	}
