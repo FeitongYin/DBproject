@@ -291,7 +291,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public ViewResult viewBoard(String username) {
+	public ViewResult getUser(String username) {
 		// TODO Auto-generated method stub
 		return null;
 	}

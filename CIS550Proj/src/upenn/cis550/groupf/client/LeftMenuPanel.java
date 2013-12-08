@@ -14,12 +14,12 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import upenn.cis550.groupf.client.event.LoginEvent;
 import upenn.cis550.groupf.client.event.ViewBoardEvent;
-import upenn.cis550.groupf.client.event.ViewFriendEvent;
+import upenn.cis550.groupf.client.event.ViewOwnerEvent;
 import upenn.cis550.groupf.shared.User;
 import upenn.cis550.groupf.shared.Board;
 import upenn.cis550.groupf.shared.ViewResult;
 
-public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handler, ViewFriendEvent.Handler {
+public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handler, ViewOwnerEvent.Handler {
 	
 	private final GreetingServiceAsync greetingService = GWT.create(GreetingService.class);	
 	private static final String LEFT_PANEL_WIDTH = "250px";
@@ -28,12 +28,12 @@ public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handl
 	private Label boardLabelSelected = new Label("");
 	private String boardIDSelected = null;
 	
-	final Label friendLabelSelected = new Label("");
+	private Label friendLabelSelected = new Label("");
 	private String friendNameSelected = null;
 	
 	public LeftMenuPanel(User currectUser, List<Board> boards, List<User> friends) {
 		Pennterest.EVENT_BUS.addHandler(ViewBoardEvent.TYPE, this);
-		Pennterest.EVENT_BUS.addHandler(ViewFriendEvent.TYPE, this);
+		Pennterest.EVENT_BUS.addHandler(ViewOwnerEvent.TYPE, this);
 		
 		setBorderWidth(3);
 		setSpacing(10);
@@ -71,7 +71,7 @@ public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handl
 			friendNameLabel = new Label(friend.getName()); // get [nickname] as label to display
 			friendNameLabel.setTitle(friend.getUserName()); // get [username(p.k)],set as title
 			friendPanel.add(friendNameLabel);
-			// TODO add handler
+			friendNameLabel.addClickHandler(new FriendClickHandler());
 		}
 	}
 	
@@ -83,8 +83,7 @@ public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handl
 		public void onClick(ClickEvent event) {
 			System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++on lick++++++++++");
 			boardLabelSelected = (Label) event.getSource();
-			boardIDSelected = boardLabelSelected.getTitle(); //boardID as title, string to int
-			System.out.println("sending to server.....");
+			boardIDSelected = boardLabelSelected.getTitle(); //boardID as title
 			sendBoardToServer();
 			
 		}
@@ -95,7 +94,7 @@ public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handl
 		 */
 		private void sendBoardToServer() {
 			final String boardID = boardIDSelected;
-			//final String boardName = boardLabel.getText();
+			
 			//test purpose, print out board name 
 			System.out.println("getting board id");
 			System.out.println(boardID);
@@ -139,10 +138,10 @@ public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handl
 		 * Fired when a board label is clicked
 		 */
 		public void onClick(ClickEvent event) {
-			// test onlick, direct to a new test page
-			// succeed
-			//Window.Location.assign("http://www.google.com");
-			System.out.println("sending friend to server.....");
+			
+			System.out.println("================On click a friend, sending friend to server===============");
+			friendLabelSelected = (Label) event.getSource();
+			friendNameSelected = friendLabelSelected.getTitle();  //get userName, which is a p.k.
 			sendFriendToServer();
 			
 		}
@@ -153,10 +152,11 @@ public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handl
 		 */
 		private void sendFriendToServer() {
 			final String friendName = friendNameSelected;
-			
-			
+			System.out.println("The userName of people you just clicked is............");
+			System.out.println(friendName);
+					
 			// trigger a query via event bus
-			Pennterest.EVENT_BUS.fireEvent(new ViewFriendEvent(friendName,
+			Pennterest.EVENT_BUS.fireEvent(new ViewOwnerEvent(friendName,
 					new AsyncCallback<ViewResult>() {
 				
 				// On error, call the error dialog routine
@@ -165,7 +165,7 @@ public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handl
 				}
 
 				private void postErrorDialog() {
-					System.out.println("failed:)");
+					System.out.println("Oh, no...Viewing a people's board failed :( ");
 					// TODO Auto-generated method stub
 					
 				}
@@ -176,10 +176,8 @@ public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handl
 						postErrorDialog();
 					}
 					else {
-						//PinPage pinPage = new PinPage(EVENT_BUS, result);
-						//pinPage.doWork();
-						System.out.println("success!!");
-						FriendBoardPage friendBoard = new FriendBoardPage(result);
+						System.out.println("****************Cogratulations!! Going to a friend's************");
+						UserPage userPage = new UserPage(result);
 					}
 				}
 			}));
@@ -202,12 +200,18 @@ public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handl
 	// add another override, e.g. processGetFriendBoard
 	
 	@Override
-	public void processViewFriend(String friendName, AsyncCallback<ViewResult> callback) {		
+	public void processViewOwner(String ownerName, AsyncCallback<ViewResult> callback) {		
 
-			greetingService.viewBoard(friendName, callback);
+			greetingService.getUser(ownerName, callback);
 			
 		}
 
+	@Override
+	public void processViewUser(String friendName,
+			AsyncCallback<ViewResult> callback) {
+		// TODO Auto-generated method stub
+		
+	}
 		
 	}
 
