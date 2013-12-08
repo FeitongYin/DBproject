@@ -1,12 +1,20 @@
 package upenn.cis550.groupf.shared;
 
+import java.util.Date;
+
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class User implements IsSerializable {
-	private int id;
+	// login
+	private String userName;
+	// nick name to be displayed
 	private String name;
+		
+	private String firstName;
+	private String lastName;
 	private String password;
 	private boolean isMale;
+	private Date dob;
 	private String email;
 	private String phone;
 	private String affiliation;
@@ -17,23 +25,18 @@ public class User implements IsSerializable {
 		
 	}
 
-	public User(int id, String name, String password, boolean isMale,
-			String email, String phone, String affiliation) {
-		this.id = id;
-		this.name = name;
-		this.password = password;
-		this.isMale = isMale;
-		this.email = email;
-		this.phone = phone;
-		this.affiliation = affiliation;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
+	public User(String userName, String name, String firstName, String lastName, String password, boolean isMale,
+			Date dob, String email, String phone, String affiliation) {
+		setUserName(userName);
+		setName(name);
+		setFirstName(firstName);
+		setLastName(lastName);
+		setPassword(password);
+		setMale(isMale);
+		setDob(dob);
+		setEmail(email);
+		setPhone(phone);
+		setAffiliation(affiliation);
 	}
 
 	public String getName() {
@@ -42,6 +45,30 @@ public class User implements IsSerializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getPassword() {
@@ -58,6 +85,14 @@ public class User implements IsSerializable {
 
 	public void setMale(boolean isMale) {
 		this.isMale = isMale;
+	}
+
+	public Date getDob() {
+		return dob;
+	}
+
+	public void setDob(Date dob) {
+		this.dob = dob;
 	}
 
 	public String getEmail() {

@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import upenn.cis550.groupf.server.util.DBUtil;
 import upenn.cis550.groupf.shared.Content;
 
 public class ContentConvertor {
@@ -19,7 +20,8 @@ public class ContentConvertor {
 	public static Content getContentFrom(ResultSet contentRs) {
 		Content content = null;
 		try {
-			content = new Content(contentRs.getInt("CONTENTID"),
+			content = new Content(contentRs.getString("SRCGROUP"),
+					contentRs.getInt("CONTENTID"),
 					contentRs.getInt("FREQUENCY"),
 					contentRs.getString("CONTENTKEY"),
 					contentRs.getString("DESCRIPTION"),
@@ -30,7 +32,6 @@ public class ContentConvertor {
 
 		return content;
 	}
-	
 
 	private static boolean isCached(String isCached) {
 		return isCached.equals("Y");
@@ -50,6 +51,8 @@ public class ContentConvertor {
 		while (rs.next()) {
 			ret.add(getContentFrom(rs));
 		}
+		
+		DBUtil.safeCloseRs(rs);
 		return ret;
 	}
 }

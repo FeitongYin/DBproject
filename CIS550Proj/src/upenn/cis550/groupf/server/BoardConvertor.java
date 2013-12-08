@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import upenn.cis550.groupf.server.util.DBUtil;
 import upenn.cis550.groupf.shared.Board;
 import upenn.cis550.groupf.shared.Content;
 
@@ -20,7 +21,7 @@ public class BoardConvertor {
 	public static Board getBoardFrom(ResultSet rs) {
 		Board board = null;
 		try {
-			board = new Board(rs.getInt("USERID"), rs.getInt("BOARDID"),
+			board = new Board(rs.getString("userName"), rs.getString("BOARDID"),
 					rs.getString("BOARDNAME"));
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -43,6 +44,8 @@ public class BoardConvertor {
 		while (rs.next()) {
 			ret.add(getBoardFrom(rs));
 		}
+		DBUtil.safeCloseRs(rs);
+
 		return ret;
 	}
 
@@ -51,7 +54,8 @@ public class BoardConvertor {
 		try {
 			while (contentRs.next()) {
 				hasDup = hasDup
-						&& board.addContent(ContentConvertor.getContentFrom(contentRs));
+						&& board.addContent(ContentConvertor
+								.getContentFrom(contentRs));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

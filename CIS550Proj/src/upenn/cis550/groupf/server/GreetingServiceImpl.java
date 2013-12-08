@@ -12,6 +12,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 /**
  * The server side implementation of the RPC service.
@@ -95,7 +96,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			stat = conn.createStatement();
 
 			System.out.println("Validating Users...");
-			userRs = stat.executeQuery("SELECT * FROM Users where name = '"
+			userRs = stat.executeQuery("SELECT * FROM Users where username = '"
 					+ name + "' and password = '" + pw + "'");
 
 			owner = UserConvertor.getUserFrom(userRs);
@@ -105,31 +106,46 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			}
 
 			stat = conn.createStatement();
-			System.out.println("Fetching User " + owner.getId() + "'s Board");
-			boardRs = stat.executeQuery("SELECT * FROM Boards where userID = "
-					+ owner.getId());
+			System.out.println("Fetching User " + owner.getUserName()
+					+ "'s Board");
+			boardRs = stat
+					.executeQuery("SELECT * FROM Boards where username = '"
+							+ owner.getUserName() + "'");
 
 			stat = conn.createStatement();
-			System.out.println("Fetching User " + owner.getId() + "'s friends");
+			System.out.println("Fetching User " + owner.getUserName()
+					+ "'s friends");
 			friendRs = stat
-					.executeQuery("select * from users where userID in "
-							+ "(select friend1Id as friendID from Friends where friend2Id = "
-							+ owner.getId()
-							+ " union "
-							+ "select friend2Id as friendID from Friends where friend1Id = "
-							+ owner.getId() + ")");
+					.executeQuery("select * from users where username in "
+							+ "(select friend1Id as friendID from Friends where friend2Id = '"
+							+ owner.getUserName()
+							+ "' union "
+							+ "select friend2Id as friendID from Friends where friend1Id = '"
+							+ owner.getUserName() + "')");
 
 			stat = conn.createStatement();
 			System.out
 					.println("Fetching most pinned content boards not belong to User "
-							+ owner.getId());
+							+ owner.getUserName());
 			pinRs = stat
 					.executeQuery("with hotcontent "
 							+ "as "
-							+ "(select contentID, count(contentID) as frequency from pin group by contentID) "
-							+ "select C.contentID, frequency, contentKey, description, isCached from hotcontent H, content C "
-							+ "where C.contentID = H.contentID "
-							+ "order by frequency desc");
+							+ "(select srcGroup, contentID, count(contentID) as frequency from pin group by srcGroup, contentID) "
+							+ "select * from "
+							+ "(select C.srcGroup, C.contentID, frequency, contentKey, description, isCached "
+							+ "from hotcontent H, content C "
+							+ "where C.contentID = H.contentID and C.srcGroup = H.srcGroup "
+							+ "order by frequency desc) "
+							+ "where ROWNUM <= 30");
+			// .executeQuery("with hotcontent "
+			// + "as "
+			// +
+			// "(select contentID, count(contentID) as frequency from pin group by contentID) "
+			// +
+			// "select C.contentID, frequency, contentKey, description, isCached "
+			// + "from hotcontent H, content C "
+			// + "where C.contentID = H.contentID and ROWNUM <= 25"
+			// + "order by frequency desc");
 
 		} catch (SQLException se) {
 			se.printStackTrace();
@@ -140,7 +156,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public User addUser(String firstName, String lastName, String email,
+	public boolean addUser(String firstName, String lastName, String email,
 			String gender) {
 		ResultSet rs = null;
 
@@ -155,8 +171,62 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			se.printStackTrace();
 		}
 
-		return null;
+		return true;
 	}
+
+	@Override
+	public boolean isUsernameExist(String username) {
+		// TODO Auto-generated method stub
+		ResultSet rs = null;
+
+		try {
+			stat = conn.createStatement();
+
+			rs = stat.executeQuery("SELECT * FROM Users where name = '"
+					+ username + "'");
+			if (rs.next() == false) {
+				return false;
+			} else {
+				return true;
+			}
+		} catch (SQLException se) {
+			se.printStackTrace();
+		}
+		return false;
+	}
+
+	@Override
+	public List<String> getTags(int contentID) {
+		ResultSet rs = null;
+		List<String> tags = null;
+
+		System.out.println("entering getTags()...");
+
+		try {
+			stat = conn.createStatement();
+
+			rs = stat.executeQuery("SELECT tag FROM Tags where contentID = "
+					+ contentID);
+			tags = TagConvertor.getTagsFrom(rs);
+		} catch (SQLException se) {
+			se.printStackTrace();
+		}
+
+		return tags;
+	}
+
+	@Override
+	public boolean pin(String userName, String boardID, String srcGroup, int contentID,
+			String comment) {
+		System.out.println("in pin() username: " + userName + "\tboardID: "
+				+ boardID + "\tsrcGroup: " + srcGroup + "\tcontentID: " + contentID + "\tcomment:"
+				+ comment);
+		return false;
+	}
+	
+	/**
+	 * @author FeitongYin
+	 */
 
 	@Override
 	public ViewResult getBoardContent(int boardID) {

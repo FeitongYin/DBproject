@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Board implements IsSerializable {
-	private int ownerID;
-	private int boardID;
+	private String userName;
+	private String boardID;
 	private String boardName;
 	
 	private Map<Integer, Content> contentMap;
@@ -15,27 +15,27 @@ public class Board implements IsSerializable {
 		
 	}
 	
-	public Board(int ownerID, int boardID, String boardName) {
-		setOwnerID(ownerID);
+	public Board(String userName, String boardID, String boardName) {
+		setUserName(userName);
 		setBoardID(boardID);
 		setBoardName(boardName);
 		// stuff with empty content
 		setContentMap(new HashMap<Integer, Content>());
 	}
 
-	public int getOwnerID() {
-		return ownerID;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setOwnerID(int ownerID) {
-		this.ownerID = ownerID;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
-	public int getBoardID() {
+	public String getBoardID() {
 		return boardID;
 	}
 
-	public void setBoardID(int boardID) {
+	public void setBoardID(String boardID) {
 		this.boardID = boardID;
 	}
 

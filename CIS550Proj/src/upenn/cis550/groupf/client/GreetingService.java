@@ -1,5 +1,7 @@
 package upenn.cis550.groupf.client;
 
+import java.util.List;
+
 import upenn.cis550.groupf.shared.User;
 import upenn.cis550.groupf.shared.ViewResult;
 
@@ -14,7 +16,13 @@ public interface GreetingService extends RemoteService {
 	
 	ViewResult login(String name, String password);
 	
-	User addUser(String firstName, String lastName, String email, String sex);
+	boolean isUsernameExist(String username);
+	
+	boolean addUser(String firstName, String lastName, String email, String gender);
+	
+	List<String> getTags(int contentID);
+	
+	boolean pin(String userName, String boardID, String srcGroup, int contentID, String comment);
 
 	ViewResult getBoardContent(int boardID);
 	

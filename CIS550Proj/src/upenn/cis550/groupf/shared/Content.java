@@ -3,6 +3,8 @@ package upenn.cis550.groupf.shared;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class Content implements IsSerializable {
+	// PK is srcGroup and contentID
+	String srcGroup;
 	int contentID;
 	// number of times this content is pinned
 	int frequency;
@@ -14,13 +16,23 @@ public class Content implements IsSerializable {
 		
 	}
 	
-	public Content(int contentID, int frequency, String contentKey, String description, boolean iscached) {
+	public Content(String srcGroup, int contentID, int frequency, String contentKey, String description, boolean iscached) {
+		setSrcGroup(srcGroup);
 		setContentID(contentID);
 		setFrequency(frequency);
 		setContentKey(contentKey);
 		setDescription(description);
 		setCached(iscached);
 	}
+	
+	public String getSrcGroup() {
+		return srcGroup;
+	}
+
+	public void setSrcGroup(String srcGroup) {
+		this.srcGroup = srcGroup;
+	}
+
 	public int getContentID() {
 		return contentID;
 	}

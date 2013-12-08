@@ -1,6 +1,5 @@
 package upenn.cis550.groupf.client.event;
 
-import upenn.cis550.groupf.shared.User;
 import upenn.cis550.groupf.shared.ViewResult;
 
 import com.google.gwt.event.shared.EventHandler;

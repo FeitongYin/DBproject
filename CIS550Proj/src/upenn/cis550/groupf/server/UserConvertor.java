@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import upenn.cis550.groupf.server.util.DBUtil;
 import upenn.cis550.groupf.shared.User;
 
 public class UserConvertor {
@@ -22,8 +23,10 @@ public class UserConvertor {
 		User user = null;
 		try {
 			if (rs.next()) {
-				user = new User(rs.getInt("USERID"), rs.getString("NAME"),
-						rs.getString("PASSWORD"), isMale(rs.getString("GENDER")),
+				user = new User(rs.getString("username"), rs.getString("name"),
+						rs.getString("firstname"), rs.getString("lastname"),
+						rs.getString("password"), isMale(rs.getString("gender")),
+						rs.getDate("dob"),
 						rs.getString("email"), rs.getString("phone"), 
 						rs.getString("affiliation"));
 			}
@@ -44,8 +47,10 @@ public class UserConvertor {
 	public static User getUser(ResultSet rs) {
 		User user = null;
 		try {
-			user = new User(rs.getInt("USERID"), rs.getString("NAME"),
-					rs.getString("PASSWORD"), isMale(rs.getString("GENDER")),
+			user = new User(rs.getString("username"), rs.getString("name"),
+					rs.getString("firstname"), rs.getString("lastname"),
+					rs.getString("password"), isMale(rs.getString("gender")),
+					rs.getDate("dob"),
 					rs.getString("email"), rs.getString("phone"), 
 					rs.getString("affiliation"));
 		} catch (SQLException e) {
@@ -56,7 +61,7 @@ public class UserConvertor {
 	}
 	
 	private static boolean isMale(String gender) {
-		return gender.equals("M");
+		return (gender == null) ? false : gender.equals("M");
 	}
 
 	/**
@@ -70,6 +75,8 @@ public class UserConvertor {
 		while (rs.next()) {
 			ret.add(getUser(rs));
 		}
+		DBUtil.safeCloseRs(rs);
+		
 		return ret;
 	}
 }
