@@ -56,6 +56,7 @@ public class BoardContentPage{
 		
 		for (Content content : result.getContents()) {
 			contentURL = content.getContentKey();
+			System.out.println(contentURL);
 			contentImg = new Image(contentURL);
 			contentImg.setSize("200px", "200px");
 			imagePanel.add(contentImg);
