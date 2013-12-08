@@ -55,6 +55,8 @@ public class BoardContentPage{
 		
 		
 		for (Content content : result.getContents()) {
+			System.out.println("-----------------------------This board has number of images to display------------------ ");
+			System.out.println(result.getContents().size());
 			contentURL = content.getContentKey();
 			System.out.println(contentURL);
 			contentImg = new Image(contentURL);

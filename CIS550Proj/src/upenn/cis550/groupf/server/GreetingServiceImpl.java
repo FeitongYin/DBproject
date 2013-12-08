@@ -231,8 +231,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public ViewResult getBoardContent(String boardID) {
 		
-		System.out.println("proccessing query!!....................");
-		// TODO Auto-generated method stub
+		System.out.println("------------------------process query : getting board with boardID being:-------------------");
+		System.out.println(boardID);
 		ResultSet userRs = null;
 		ResultSet boardRs = null;
 		ResultSet friendRs = null;
@@ -247,6 +247,9 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 					+ boardID + "' AND B.username = U.username");
 			// user query ok
 			boardOwner = UserConvertor.getUserFrom(userRs);
+			System.out.println("successfully getting user...........and his username is:");
+			System.out.println(boardOwner.getUserName());
+			
 
 			//Boards
 			stat = conn.createStatement();
@@ -274,7 +277,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				+ "select * from "
 				+ "(select C.srcGroup, C.contentID, frequency, contentKey, description, isCached "
 				+ "from hotcontent H, content C "
-				+ "where C.contentID = H.contentID and C.srcGroup = H.srcGroup)");
+				+ "where C.contentID = H.contentID and C.srcGroup = H.srcGroup)"); //ok
 			// query tested in sql
 			
 			
