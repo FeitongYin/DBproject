@@ -8,6 +8,7 @@ h1 {
   color: #777777;
   margin: 40px 0px 70px;
   text-align: center;
+  background-image: url("../images/boardImage.png"); !important;
 }
 
 .gwt-Button {

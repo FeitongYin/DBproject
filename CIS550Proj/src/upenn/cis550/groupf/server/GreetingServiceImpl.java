@@ -296,7 +296,6 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		ResultSet userRs = null;
 		ResultSet boardRs = null;
 		ResultSet friendRs = null;
-		ResultSet nullContentRs = null;
 		User owner = null;
 
 		try {
@@ -333,15 +332,13 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			System.out
 					.println("Fetching most pinned content boards not belong to User "
 							+ owner.getUserName());
-			
-			nullContentRs = stat
-					.executeQuery("");
+	
 
 		} catch (SQLException se) {
 			se.printStackTrace();
 		}
 
 		return ViewResultConvertor.getViewResultFrom(null, owner, boardRs,
-				friendRs, nullContentRs);
+				friendRs);
 	}
 }

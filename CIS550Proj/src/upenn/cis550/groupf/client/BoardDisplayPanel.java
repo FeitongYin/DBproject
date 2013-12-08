@@ -9,6 +9,7 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -21,6 +22,17 @@ import upenn.cis550.groupf.shared.Board;
 import upenn.cis550.groupf.shared.ViewResult;
 
 public class BoardDisplayPanel extends HorizontalPanel {
+	
+	public BoardDisplayPanel(ViewResult result) {
+		setSpacing(10);
+		List<Board> boards = result.getBoards();
+
+		for (Board board : boards) {
+			add(new BoardWidgetPanel(board));		
+		}
+		
+	}
+	
 
 
 

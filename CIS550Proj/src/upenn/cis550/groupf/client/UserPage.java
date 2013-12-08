@@ -40,24 +40,6 @@ public class UserPage {
 	List<User> friends = null;
 
 	public UserPage(ViewResult result) {
-		//EVENT_BUS.addHandler(ViewEvent.TYPE, this);
-		
-		/*
-		EVENT_BUS.fireEvent(new ViewEvent(result.getUser().getId(),
-				new AsyncCallback<ViewResult>() {
-			
-			// On error, call the error dialog routine
-			public void onFailure(Throwable caught) {
-				
-			}
-
-			@Override
-			public void onSuccess(ViewResult result) {
-				boards = result.getBoards();
-				friends = result.getFriends();
-			}
-		}));
-		*/
 		
 		RootPanel rootPanel = RootPanel.get("ContentPanel");
 		rootPanel.setSize("1024px", "768px");
@@ -75,7 +57,8 @@ public class UserPage {
 		
 		// Above are good. Basically needs no change.
 		// TODO: below gonna change to my BoardDisPlayPanel, defined later.
-		VerticalPanel centerPanel = new HotContentPanel(result.getViewer(), result.getBoards(), result.getContents());
+		
+		BoardDisplayPanel centerPanel = new BoardDisplayPanel(result);
 		centerPanel.getElement().getStyle().setPosition(Position.RELATIVE);
 		mainPanel.add(centerPanel);
 		centerPanel.setSize("154px", "510px");
