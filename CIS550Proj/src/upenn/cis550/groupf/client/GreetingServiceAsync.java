@@ -24,9 +24,9 @@ public interface GreetingServiceAsync {
 	void pin(String userName, String boardID, String srcGroup, int contentID, String comment,
 			AsyncCallback<Boolean> callback);
 
-	void viewBoard(String username, AsyncCallback<ViewResult> callback);
+	void getBoardContent(String boardID, AsyncCallback<ViewResult> callback);
 
-	void isUsernameExist(String username, AsyncCallback<Boolean> callback);
+	void viewBoard(String username, AsyncCallback<ViewResult> callback);
 
 	
 }

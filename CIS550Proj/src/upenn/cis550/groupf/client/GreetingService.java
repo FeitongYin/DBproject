@@ -23,7 +23,7 @@ public interface GreetingService extends RemoteService {
 	List<String> getTags(int contentID);
 	
 	boolean pin(String userName, String boardID, String srcGroup, int contentID, String comment);
-
+	
 	ViewResult getBoardContent(String boardID);
 	
 	ViewResult viewBoard(String username);
