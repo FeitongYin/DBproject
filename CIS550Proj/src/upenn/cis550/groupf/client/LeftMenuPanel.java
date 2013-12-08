@@ -21,24 +21,21 @@ import upenn.cis550.groupf.shared.ViewResult;
 
 public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handler {
 	
-	
-	public EventBus EVENT_BUS;
-	private final GreetingServiceAsync greetingService = GWT
-			.create(GreetingService.class);
-	
+	private final GreetingServiceAsync greetingService = GWT.create(GreetingService.class);	
 	private static final String LEFT_PANEL_WIDTH = "250px";
-	//final Label boardLabel = new Label("");
+	
+	
 	private Label boardLabelSelected = new Label("");
 	private int boardIDSelected;
 	
-	final Label friendLabel = new Label("");
-	private int friendID;
+	final Label friendLabelSelected = new Label("");
+	private String friendNameSelected = null;
 	
 	public LeftMenuPanel(User currectUser, List<Board> boards, List<User> friends) {
 		Pennterest.EVENT_BUS.addHandler(ViewBoardEvent.TYPE, this);
 		setBorderWidth(3);
 		setSpacing(10);
-		Label label = null;
+		//Label label = null;
 		
 		Label boardLabel = new Label("Boards you own");
 		Label boardNameLabel = null;
@@ -53,6 +50,8 @@ public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handl
 		boardLabel.setSize("100px", "21px");
 		add(boardPanel);
 		boardPanel.setSize("100px", "100px");
+		
+		
 		add(friendLabel);
 		friendLabel.setSize("100px", "20px");
 		add(friendPanel);
@@ -67,9 +66,10 @@ public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handl
 		}
 		
 		for (User friend : friends) {
-			friendLabel.setText(friend.getName());
-			friendID = friend.getId();
-			friendPanel.add(friendLabel);
+			friendNameLabel = new Label(friend.getName()); // get [nickname] as label to display
+			friendNameLabel.setTitle(friend.getName()); // get [username(p.k)],set as title
+			//TODO!!!!!!!!!!!! title should actually be obtained by getNickName() later;!!!!!!!!!!!!!!!!
+			friendPanel.add(friendNameLabel);
 			// TODO add handler
 		}
 	}
@@ -151,13 +151,11 @@ public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handl
 		 * maybe should also send the name of viewer(check later)
 		 */
 		private void sendFriendToServer() {
-			final int friendToViewID = friendID;
+			final String friendName = friendNameSelected;
 			
-			//test purpose, print out board name 
-			System.out.println(friendToViewID);
 			
 			// trigger a query via event bus
-			Pennterest.EVENT_BUS.fireEvent(new ViewFriendEvent(friendToViewID,
+			Pennterest.EVENT_BUS.fireEvent(new ViewFriendEvent(friendName,
 					new AsyncCallback<ViewResult>() {
 				
 				// On error, call the error dialog routine
@@ -194,14 +192,20 @@ public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handl
 	}
 
 	@Override
-	public void processViewFriend(String friendName, AsyncCallback<ViewResult> callback) {		
-			// TODO Auto-generated method stub
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!test");
-			greetingService.viewBoard(friendName, callback);
+	public void processGetBoard(int boardID, AsyncCallback<ViewResult> callback) {		
+
+			greetingService.getBoardContent(boardID, callback);
 			
 		}
 	
 	// add another override, e.g. processGetFriendBoard
+	
+	@Override
+	public void processViewFriend(String friendName, AsyncCallback<ViewResult> callback) {		
+
+			greetingService.viewBoard(friendName, callback);
+			
+		}
 
 		
 	}

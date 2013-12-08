@@ -43,16 +43,21 @@ public class ViewBoardEvent extends GwtEvent<ViewBoardEvent.Handler> {
 	protected void dispatch(Handler handler) {
 		handler.processGetBoard(boardID, callback);
 	}
+	
 	 
 	/**
 	 * An event handler for the query request even
-	 * but i don't know where and when to use it???????
+	 * 
 	 * @author FeitongYin
 	 *
 	 */
 	public static interface Handler extends EventHandler {
 		public void processGetBoard(int boardID,
 				AsyncCallback<ViewResult> callback);
+
+		void processViewFriend(String friendName,
+				AsyncCallback<ViewResult> callback);
+		
 
 	}
 		
