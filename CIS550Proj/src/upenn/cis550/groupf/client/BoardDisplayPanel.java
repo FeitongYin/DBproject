@@ -21,9 +21,16 @@ import upenn.cis550.groupf.shared.User;
 import upenn.cis550.groupf.shared.Board;
 import upenn.cis550.groupf.shared.ViewResult;
 
-public class BoardDisplayPanel extends HorizontalPanel {
+public class BoardDisplayPanel extends VerticalPanel {
 	
 	public BoardDisplayPanel(ViewResult result) {
+		
+		String title = null;
+		String ownerName = result.getOwner().getName();
+		title = "Here are " + ownerName + "'s boards:";
+		Label titlelb = new Label(title);
+		add(titlelb);		
+		
 		setSpacing(10);
 		List<Board> boards = result.getBoards();
 
