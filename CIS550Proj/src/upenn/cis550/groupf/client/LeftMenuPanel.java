@@ -26,7 +26,7 @@ public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handl
 	
 	
 	private Label boardLabelSelected = new Label("");
-	private int boardIDSelected;
+	private String boardIDSelected = null;
 	
 	final Label friendLabelSelected = new Label("");
 	private String friendNameSelected = null;
@@ -60,15 +60,14 @@ public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handl
 		for (Board board : boards) {
 			//boardLabel.setText(board.getBoardName());
 			boardNameLabel = new Label(board.getBoardName());
-			boardNameLabel.setTitle(Integer.toString(board.getBoardID())); //get boardId set as title
+			boardNameLabel.setTitle(board.getBoardID()); //get boardId set as title
 			boardPanel.add(boardNameLabel);
 			boardNameLabel.addClickHandler(new BoardClickHandler());
 		}
 		
 		for (User friend : friends) {
 			friendNameLabel = new Label(friend.getName()); // get [nickname] as label to display
-			friendNameLabel.setTitle(friend.getName()); // get [username(p.k)],set as title
-			//TODO!!!!!!!!!!!! title should actually be obtained by getNickName() later;!!!!!!!!!!!!!!!!
+			friendNameLabel.setTitle(friend.getUserName()); // get [username(p.k)],set as title
 			friendPanel.add(friendNameLabel);
 			// TODO add handler
 		}
@@ -82,7 +81,7 @@ public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handl
 		public void onClick(ClickEvent event) {
 			System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++on lick++++++++++");
 			boardLabelSelected = (Label) event.getSource();
-			boardIDSelected = Integer.parseInt(boardLabelSelected.getTitle()); //boardID as title, string to int
+			boardIDSelected = boardLabelSelected.getTitle(); //boardID as title, string to int
 			System.out.println("sending to server.....");
 			sendBoardToServer();
 			
@@ -93,14 +92,14 @@ public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handl
 		 * maybe should also send the name of viewer(check later)
 		 */
 		private void sendBoardToServer() {
-			final int boardOwnerID = boardIDSelected;
+			final String boardID = boardIDSelected;
 			//final String boardName = boardLabel.getText();
 			//test purpose, print out board name 
 			System.out.println("getting board id");
-			System.out.println(boardOwnerID);
+			System.out.println(boardID);
 			
 			// trigger a query via event bus
-			Pennterest.EVENT_BUS.fireEvent(new ViewBoardEvent(boardOwnerID,
+			Pennterest.EVENT_BUS.fireEvent(new ViewBoardEvent(boardID,
 					new AsyncCallback<ViewResult>() {
 				
 				// On error, call the error dialog routine
@@ -192,7 +191,7 @@ public class LeftMenuPanel extends VerticalPanel implements ViewBoardEvent.Handl
 	}
 
 	@Override
-	public void processGetBoard(int boardID, AsyncCallback<ViewResult> callback) {		
+	public void processGetBoard(String boardID, AsyncCallback<ViewResult> callback) {		
 
 			greetingService.getBoardContent(boardID, callback);
 			

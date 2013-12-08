@@ -14,7 +14,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  *
  */
 public class ViewBoardEvent extends GwtEvent<ViewBoardEvent.Handler> {
-	private int boardID;
+	private String boardID = null;
 	
 	// Whom to call when results are returned
 	private AsyncCallback<ViewResult> callback;
@@ -25,7 +25,7 @@ public class ViewBoardEvent extends GwtEvent<ViewBoardEvent.Handler> {
 	public static Type<ViewBoardEvent.Handler> TYPE = new Type<ViewBoardEvent.Handler>();
 
 
-	public ViewBoardEvent (int boardID, AsyncCallback<ViewResult> callback) {
+	public ViewBoardEvent (String boardID, AsyncCallback<ViewResult> callback) {
 		this.boardID = boardID;
 		this.callback = callback;
 	}
@@ -52,7 +52,7 @@ public class ViewBoardEvent extends GwtEvent<ViewBoardEvent.Handler> {
 	 *
 	 */
 	public static interface Handler extends EventHandler {
-		public void processGetBoard(int boardID,
+		public void processGetBoard(String boardID,
 				AsyncCallback<ViewResult> callback);
 
 		void processViewFriend(String friendName,
